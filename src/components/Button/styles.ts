@@ -1,4 +1,4 @@
-import  styled  from 'styled-components';
+import  styled, { css }  from 'styled-components';
 import { ButtonVariant } from './typings';
 
 interface ButtonProps {
@@ -14,12 +14,21 @@ const buttonVariants = {
 }
 
 export const Button = styled.button<ButtonProps>`
-  width: 100px;
-  height: 40px;
+  cursor: pointer;
+  width: 6.25rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  margin: 0.5rem;
 
-  background-color: ${props => buttonVariants[props.variant]};
-  /* ${props => {
-    return `background-color: ${buttonVariants[props.variant]};`
-  }} */
+  background-color: ${props => props.theme.primary};
+  color: ${props => props.theme.white};
+
+  /* background-color: ${props => buttonVariants[props.variant]};
+  ${props => {
+    return css`
+      background-color: ${buttonVariants[props.variant]};
+    `
+  }}
+  */
 `;
 
