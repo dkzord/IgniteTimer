@@ -1,7 +1,5 @@
-
 export function App() {
+  return <div>Olá mundo</div>
 
-  return (
-    <div>test OK</div>
-  )
+
 }
