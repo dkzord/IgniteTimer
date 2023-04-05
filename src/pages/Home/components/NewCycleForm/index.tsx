@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { CyclesContext } from '../../index';
+import { CyclesContext } from '../../../../contexts/CycleContext';
 
 import * as S from './styles';
 import { useFormContext } from 'react-hook-form';
