@@ -4,61 +4,17 @@ import {
   Cycle,
   CycleContentProviderProps,
   CycleContextType,
-  CycleState,
 } from './typings';
+import { CyclesReducer } from '../reducers/cycles';
+import { ActionsTypes } from './typignsEnum';
 
 export const CyclesContext = createContext({} as CycleContextType);
 
 export function CyclesContextProvider({ children }: CycleContentProviderProps) {
-  const [cyclesState, dispatch] = useReducer(
-    (state: CycleState, action: any) => {
-      switch (action.type) {
-        case 'ADD_NEW_CYCLE':
-          return {
-            ...state,
-            cycles: [...state.cycles, action.payload.newCycle],
-            activeCycleId: action.payload.newCycle.id,
-          };
-        case 'INTERRUPT_CURRENT_CYCLE':
-          return {
-            ...state,
-            cycles: state.cycles.map((cycle) => {
-              if (cycle.id === state.activeCycleId) {
-                return {
-                  ...cycle,
-                  interruptedAt: new Date(),
-                };
-              } else {
-                return cycle;
-              }
-            }),
-            activeCycleId: null,
-          };
-        case 'MARK_CURRENT_CYCLE_AS_FINISHED':
-          return {
-            ...state,
-            cycles: state.cycles.map((cycle) => {
-              if (cycle.id === state.activeCycleId) {
-                return {
-                  ...cycle,
-                  finishedAt: new Date(),
-                };
-              } else {
-                return cycle;
-              }
-            }),
-            activeCycleId: null,
-          };
-
-        default:
-          return state;
-      }
-    },
-    {
-      cycles: [],
-      activeCycleId: null,
-    },
-  );
+  const [cyclesState, dispatch] = useReducer(CyclesReducer, {
+    cycles: [],
+    activeCycleId: null,
+  });
   const [amountSecondsPassed, setAmountSecondsPassed] = useState<number>(0);
 
   const { cycles, activeCycleId } = cyclesState;
@@ -71,7 +27,7 @@ export function CyclesContextProvider({ children }: CycleContentProviderProps) {
 
   function markCurrentCycleAsFinshed() {
     dispatch({
-      type: 'MARK_CURRENT_CYCLE_AS_FINISHED',
+      type: ActionsTypes.MARK_CURRENT_CYCLE_AS_FINISHED,
       payload: {
         activeCycleId,
       },
@@ -89,7 +45,7 @@ export function CyclesContextProvider({ children }: CycleContentProviderProps) {
     };
 
     dispatch({
-      type: 'ADD_NEW_CYCLE',
+      type: ActionsTypes.ADD_NEW_CYCLE,
       payload: {
         newCycle,
       },
@@ -100,7 +56,7 @@ export function CyclesContextProvider({ children }: CycleContentProviderProps) {
 
   function interruptCurrentCycle() {
     dispatch({
-      type: 'INTERRUPT_CURRENT_CYCLE',
+      type: ActionsTypes.INTERRUPT_CURRENT_CYCLE,
       payload: {
         activeCycleId,
       },
