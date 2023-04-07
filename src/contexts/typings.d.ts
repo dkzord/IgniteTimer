@@ -18,6 +18,11 @@ export interface Cycle {
   finishedAt?: Date;
 }
 
+export interface CycleState {
+  cycles: Cycle[];
+  activeCycleId: string | null;
+}
+
 export interface CycleContextType {
   cycles: Cycle[];
   activeCycle: Cycle | undefined;
