@@ -37,6 +37,23 @@ export function CyclesContextProvider({ children }: CycleContentProviderProps) {
         };
       }
 
+      if (action.type === 'MARK_CURRENT_CYCLE_AS_FINISHED') {
+        return {
+          ...state,
+          cycles: state.cycles.map((cycle) => {
+            if (cycle.id === state.activeCycleId) {
+              return {
+                ...cycle,
+                finishedAt: new Date(),
+              };
+            } else {
+              return cycle;
+            }
+          }),
+          activeCycleId: null,
+        };
+      }
+
       return state;
     },
     {
@@ -61,19 +78,6 @@ export function CyclesContextProvider({ children }: CycleContentProviderProps) {
         activeCycleId,
       },
     });
-
-    /* setCycles((state: any) =>
-      state.map((cycle: any) => {
-        if (cycle.id === activeCycleId) {
-          return {
-            ...cycle,
-            finishedAt: new Date(),
-          };
-        } else {
-          return cycle;
-        }
-      }),
-    ); */
   }
 
   function createNewCycle(data: CreateCycleData) {
@@ -93,7 +97,6 @@ export function CyclesContextProvider({ children }: CycleContentProviderProps) {
       },
     });
 
-    // setCycles((state) => [...state, newCycle]);
     setAmountSecondsPassed(0);
   }
 
