@@ -1,5 +1,5 @@
-import { ActionsTypes } from '../contexts/typignsEnum';
-import { CycleState } from '../contexts/typings';
+import { ActionsTypes } from './actions';
+import { CycleState } from '../../contexts/typings';
 
 export function CyclesReducer(state: CycleState, action: any) {
   switch (action.type) {
@@ -9,6 +9,7 @@ export function CyclesReducer(state: CycleState, action: any) {
         cycles: [...state.cycles, action.payload.newCycle],
         activeCycleId: action.payload.newCycle.id,
       };
+
     case ActionsTypes.INTERRUPT_CURRENT_CYCLE:
       return {
         ...state,
@@ -24,6 +25,7 @@ export function CyclesReducer(state: CycleState, action: any) {
         }),
         activeCycleId: null,
       };
+
     case ActionsTypes.MARK_CURRENT_CYCLE_AS_FINISHED:
       return {
         ...state,

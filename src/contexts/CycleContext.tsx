@@ -5,8 +5,13 @@ import {
   CycleContentProviderProps,
   CycleContextType,
 } from './typings';
-import { CyclesReducer } from '../reducers/cycles';
-import { ActionsTypes } from './typignsEnum';
+import { CyclesReducer } from '../reducers/cycles/reducer';
+import {
+  ActionsTypes,
+  addNewCycleAction,
+  interruptCurrentCycleAction,
+  markCurrentCycleAsFinishedAction,
+} from '../reducers/cycles/actions';
 
 export const CyclesContext = createContext({} as CycleContextType);
 
@@ -26,12 +31,7 @@ export function CyclesContextProvider({ children }: CycleContentProviderProps) {
   }
 
   function markCurrentCycleAsFinshed() {
-    dispatch({
-      type: ActionsTypes.MARK_CURRENT_CYCLE_AS_FINISHED,
-      payload: {
-        activeCycleId,
-      },
-    });
+    dispatch(markCurrentCycleAsFinishedAction());
   }
 
   function createNewCycle(data: CreateCycleData) {
@@ -44,23 +44,13 @@ export function CyclesContextProvider({ children }: CycleContentProviderProps) {
       startDate: new Date(),
     };
 
-    dispatch({
-      type: ActionsTypes.ADD_NEW_CYCLE,
-      payload: {
-        newCycle,
-      },
-    });
+    dispatch(addNewCycleAction(newCycle));
 
     setAmountSecondsPassed(0);
   }
 
   function interruptCurrentCycle() {
-    dispatch({
-      type: ActionsTypes.INTERRUPT_CURRENT_CYCLE,
-      payload: {
-        activeCycleId,
-      },
-    });
+    dispatch(interruptCurrentCycleAction());
   }
 
   return (
